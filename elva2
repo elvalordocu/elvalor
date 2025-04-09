@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Valor del Arte - Mapa Interactivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #F5E9DC;
+    }
+    header {
+      background-color: #C4583A;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+    }
+    #map {
+      height: 500px;
+      width: 100%;
+    }
+    section {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    .quote {
+      font-style: italic;
+      color: #7DAA92;
+      margin-top: 1rem;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .gallery img {
+      width: 200px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .carrusel {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+      font-style: italic;
+      text-align: center;
+      animation: cambioCita 12s infinite;
+    }
+    @keyframes cambioCita {
+      0% { opacity: 1; }
+      33% { opacity: 0; }
+      66% { opacity: 1; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>El Valor del Arte</h1>
+    <p>Explorá las regiones. Escuchá las voces. Sentí las preguntas.</p>
+  </header>
+
+  <section>
+    <h2>Mapa Documental</h2>
+    <p>Estos son algunos de los territorios que visitaremos en la serie. En cada punto, una historia, una voz, una visión sobre el arte y su valor.</p>
+    <div id="map"></div>
+  </section>
+
+  <section>
+    <h2>Cita en Movimiento</h2>
+    <div class="carrusel">
+      <p id="frase">"Tal vez hacer un documental no sea responder preguntas, sino hacer las correctas, recopilar información y liberar al espectador para que las responda."</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Galería Visual</h2>
+    <div class="gallery">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Pintura_argentina_mural.jpg/640px-Pintura_argentina_mural.jpg" alt="Arte mural">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Taller_artistico.jpg/640px-Taller_artistico.jpg" alt="Taller artístico">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/CiudadCultura_BsAs.jpg/640px-CiudadCultura_BsAs.jpg" alt="Cultura en Buenos Aires">
+    </div>
+  </section>
+
+  <section>
+    <h2>Capítulos de la Serie</h2>
+    <p>Muy pronto, cada episodio recorrerá una región distinta de Argentina. En esta sección se detallará el contenido, protagonistas y temas abordados por capítulo.</p>
+  </section>
+
+  <section>
+    <h2>Equipo Realizador</h2>
+    <p>El proyecto es impulsado por un grupo de realizadores independientes apasionados por el arte, la cultura y la narrativa documental. Aquí compartiremos más información sobre los integrantes y sus roles.</p>
+  </section>
+
+  <section>
+    <h2>Conductora</h2>
+    <p>El proyecto contará con una conductora que viajará por las distintas regiones del país. Su mirada será la guía emocional y filosófica del recorrido. Pronto compartiremos su perfil y experiencia.</p>
+  </section>
+
+  <section>
+    <h2>Participá</h2>
+    <p>¿Querés dejar tu opinión, una historia o sumar un espacio artístico al mapa? Escribinos a <a href="mailto:contactoelvalordelarte@gmail.com">contactoelvalordelarte@gmail.com</a> o seguinos en <a href="https://www.instagram.com/elvalordelarte.docu" target="_blank">Instagram</a>.</p>
+  </section>
+
+  <footer style="background:#456990; color:white; text-align:center; padding:1rem;">
+    © 2025 El Valor del Arte — Proyecto transmedia documental
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    window.onload = function () {
+      console.log("Iniciando mapa...");
+      const map = L.map('map').setView([-38.4161, -63.6167], 5);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      const lugares = [
+        {
+          coords: [-26.8241, -65.2226],
+          title: "Tucumán",
+          texto: "Tierra de raíz viva. Aquí se filmará el primer episodio."
+        },
+        {
+          coords: [-34.6037, -58.3816],
+          title: "Buenos Aires",
+          texto: "Ciudad de contrastes. El arte urbano toma la palabra."
+        },
+        {
+          coords: [-24.1858, -65.2995],
+          title: "Jujuy",
+          texto: "Altura, color y ritual. El arte como herencia ancestral."
+        }
+      ];
+
+      lugares.forEach(p => {
+        L.marker(p.coords).addTo(map).bindPopup(`<strong>${p.title}</strong><br>${p.texto}`);
+      });
+
+      const frases = [
+        "¿Qué lugar ocupa el arte en una sociedad que no sabe que lo necesita?",
+        "El arte es invisible... hasta que falta.",
+        "Detrás de cada trazo hay una vida que crea sin garantías."
+      ];
+
+      let fraseIndex = 0;
+      setInterval(() => {
+        fraseIndex = (fraseIndex + 1) % frases.length;
+        document.getElementById("frase").textContent = frases[fraseIndex];
+      }, 6000);
+    }
+  </script>
+</body>
+</html>
+
+
+  </body>
+</html>
